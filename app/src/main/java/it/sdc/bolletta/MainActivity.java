@@ -258,7 +258,7 @@ public class MainActivity extends AppCompatActivity {
                 numberFormat.format(total)
         );
         resultView.setText(text);
-        resultTotalView.setText("Totale bimestrale: " + totalFormat.format(total) + " EUR");
+        resultTotalView.setText(getString(R.string.result_total_format, totalFormat.format(total)));
     }
 
     private TariffConfig parseRequiredTariffConfig(MonthTariffInputs inputs) {
