@@ -41,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
     private static final double DEFAULT_FISSA = 0.0d;
 
     private final DecimalFormat numberFormat = new DecimalFormat("0.000");
+    private final DecimalFormat inputFormat = new DecimalFormat("0.######");
     private final DecimalFormat totalFormat = new DecimalFormat("0.00");
 
     private EditText readingMonthOneInput;
@@ -347,30 +348,30 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setTariffInputs(MonthTariffInputs inputs, TariffConfig config) {
-        inputs.priceIndexInput.setText(String.valueOf(config.getCorrispettivoLuceIndexPerKwh()));
-        inputs.priceContributoInput.setText(String.valueOf(config.getContributoConsumoPerKwh()));
-        inputs.priceDispacciamentoInput.setText(String.valueOf(config.getDispacciamentoPerKwh()));
-        inputs.priceTrasportoInput.setText(String.valueOf(config.getTrasportoPerKwh()));
-        inputs.priceOneriAsosInput.setText(String.valueOf(config.getOneriAsosPerKwh()));
-        inputs.priceOneriArimInput.setText(String.valueOf(config.getOneriArimPerKwh()));
-        inputs.priceImposteInput.setText(String.valueOf(config.getImpostePerKwh()));
-        inputs.lossesPercentInput.setText(String.valueOf(config.getPerditePercent()));
-        inputs.ivaPercentInput.setText(String.valueOf(config.getIvaPercent()));
-        inputs.priceFissaInput.setText(String.valueOf(config.getQuotaFissaBimestrale()));
+        inputs.priceIndexInput.setText(inputFormat.format(config.getCorrispettivoLuceIndexPerKwh()));
+        inputs.priceContributoInput.setText(inputFormat.format(config.getContributoConsumoPerKwh()));
+        inputs.priceDispacciamentoInput.setText(inputFormat.format(config.getDispacciamentoPerKwh()));
+        inputs.priceTrasportoInput.setText(inputFormat.format(config.getTrasportoPerKwh()));
+        inputs.priceOneriAsosInput.setText(inputFormat.format(config.getOneriAsosPerKwh()));
+        inputs.priceOneriArimInput.setText(inputFormat.format(config.getOneriArimPerKwh()));
+        inputs.priceImposteInput.setText(inputFormat.format(config.getImpostePerKwh()));
+        inputs.lossesPercentInput.setText(inputFormat.format(config.getPerditePercent()));
+        inputs.ivaPercentInput.setText(inputFormat.format(config.getIvaPercent()));
+        inputs.priceFissaInput.setText(inputFormat.format(config.getQuotaFissaBimestrale()));
     }
 
     private void persistTariffForSlot(String slot, TariffConfig config) {
         preferences.edit()
-                .putFloat(slotKey(KEY_PRICE_INDEX, slot), (float) config.getCorrispettivoLuceIndexPerKwh())
-                .putFloat(slotKey(KEY_PRICE_CONTRIBUTO, slot), (float) config.getContributoConsumoPerKwh())
-                .putFloat(slotKey(KEY_PRICE_DISPACCIAMENTO, slot), (float) config.getDispacciamentoPerKwh())
-                .putFloat(slotKey(KEY_PRICE_TRASPORTO, slot), (float) config.getTrasportoPerKwh())
-                .putFloat(slotKey(KEY_PRICE_ONERI_ASOS, slot), (float) config.getOneriAsosPerKwh())
-                .putFloat(slotKey(KEY_PRICE_ONERI_ARIM, slot), (float) config.getOneriArimPerKwh())
-                .putFloat(slotKey(KEY_PRICE_IMPOSTE, slot), (float) config.getImpostePerKwh())
-                .putFloat(slotKey(KEY_PERDITE_PERCENT, slot), (float) config.getPerditePercent())
-                .putFloat(slotKey(KEY_IVA_PERCENT, slot), (float) config.getIvaPercent())
-                .putFloat(slotKey(KEY_PRICE_FISSA, slot), (float) config.getQuotaFissaBimestrale())
+                .putLong(slotKey(KEY_PRICE_INDEX, slot), Double.doubleToRawLongBits(config.getCorrispettivoLuceIndexPerKwh()))
+                .putLong(slotKey(KEY_PRICE_CONTRIBUTO, slot), Double.doubleToRawLongBits(config.getContributoConsumoPerKwh()))
+                .putLong(slotKey(KEY_PRICE_DISPACCIAMENTO, slot), Double.doubleToRawLongBits(config.getDispacciamentoPerKwh()))
+                .putLong(slotKey(KEY_PRICE_TRASPORTO, slot), Double.doubleToRawLongBits(config.getTrasportoPerKwh()))
+                .putLong(slotKey(KEY_PRICE_ONERI_ASOS, slot), Double.doubleToRawLongBits(config.getOneriAsosPerKwh()))
+                .putLong(slotKey(KEY_PRICE_ONERI_ARIM, slot), Double.doubleToRawLongBits(config.getOneriArimPerKwh()))
+                .putLong(slotKey(KEY_PRICE_IMPOSTE, slot), Double.doubleToRawLongBits(config.getImpostePerKwh()))
+                .putLong(slotKey(KEY_PERDITE_PERCENT, slot), Double.doubleToRawLongBits(config.getPerditePercent()))
+                .putLong(slotKey(KEY_IVA_PERCENT, slot), Double.doubleToRawLongBits(config.getIvaPercent()))
+                .putLong(slotKey(KEY_PRICE_FISSA, slot), Double.doubleToRawLongBits(config.getQuotaFissaBimestrale()))
                 .apply();
     }
 
@@ -379,18 +380,23 @@ public class MainActivity extends AppCompatActivity {
             return null;
         }
 
-        return new TariffConfig(
-                preferences.getFloat(slotKey(KEY_PRICE_INDEX, slot), 0f),
-                preferences.getFloat(slotKey(KEY_PRICE_CONTRIBUTO, slot), 0f),
-                preferences.getFloat(slotKey(KEY_PRICE_DISPACCIAMENTO, slot), 0f),
-                preferences.getFloat(slotKey(KEY_PRICE_TRASPORTO, slot), 0f),
-                preferences.getFloat(slotKey(KEY_PRICE_ONERI_ASOS, slot), 0f),
-                preferences.getFloat(slotKey(KEY_PRICE_ONERI_ARIM, slot), 0f),
-                preferences.getFloat(slotKey(KEY_PRICE_IMPOSTE, slot), 0f),
-                preferences.getFloat(slotKey(KEY_PERDITE_PERCENT, slot), 0f),
-                preferences.getFloat(slotKey(KEY_IVA_PERCENT, slot), 0f),
-                preferences.getFloat(slotKey(KEY_PRICE_FISSA, slot), 0f)
-        );
+        try {
+            return new TariffConfig(
+                    Double.longBitsToDouble(preferences.getLong(slotKey(KEY_PRICE_INDEX, slot), 0L)),
+                    Double.longBitsToDouble(preferences.getLong(slotKey(KEY_PRICE_CONTRIBUTO, slot), 0L)),
+                    Double.longBitsToDouble(preferences.getLong(slotKey(KEY_PRICE_DISPACCIAMENTO, slot), 0L)),
+                    Double.longBitsToDouble(preferences.getLong(slotKey(KEY_PRICE_TRASPORTO, slot), 0L)),
+                    Double.longBitsToDouble(preferences.getLong(slotKey(KEY_PRICE_ONERI_ASOS, slot), 0L)),
+                    Double.longBitsToDouble(preferences.getLong(slotKey(KEY_PRICE_ONERI_ARIM, slot), 0L)),
+                    Double.longBitsToDouble(preferences.getLong(slotKey(KEY_PRICE_IMPOSTE, slot), 0L)),
+                    Double.longBitsToDouble(preferences.getLong(slotKey(KEY_PERDITE_PERCENT, slot), 0L)),
+                    Double.longBitsToDouble(preferences.getLong(slotKey(KEY_IVA_PERCENT, slot), 0L)),
+                    Double.longBitsToDouble(preferences.getLong(slotKey(KEY_PRICE_FISSA, slot), 0L))
+            );
+        } catch (ClassCastException e) {
+            // Handle cases where preferences were stored as Float in previous versions
+            return null;
+        }
     }
 
     private boolean hasTariffForSlot(String slot) {
