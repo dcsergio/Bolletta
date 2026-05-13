@@ -10,6 +10,21 @@
     <string name="label_month_one_short">Mese 1</string>
     <string name="label_month_two_short">Mese 2</string>
     <string name="label_consumption_kwh">Consumo (kWh)</string>
+    <string name="label_index_short">Index</string>
+    <string name="label_contributo_short">Contributo</string>
+    <string name="label_dispacciamento_short">Dispacc.</string>
+    <string name="label_trasporto_short">Trasporto</string>
+    <string name="label_oneri_asos_short">Oneri ASOS</string>
+    <string name="label_oneri_arim_short">Oneri ARIM</string>
+    <string name="label_imposte_short">Imposte</string>
+    <string name="label_perdite_short">Perdite %</string>
+    <string name="label_iva_short">IVA %</string>
+    <string name="label_fissa_short">Quota Fissa</string>
+
+    <string name="hint_decimal_three">0.000</string>
+    <string name="hint_decimal_two">0.00</string>
+    <string name="hint_percent">%</string>
+
     <string name="hint_price_index">Corrispettivo luce index (EUR/kWh)</string>
     <string name="hint_price_contributo">Contributo al consumo (EUR/kWh)</string>
     <string name="hint_price_dispacciamento">Dispacciamento (EUR/kWh)</string>
