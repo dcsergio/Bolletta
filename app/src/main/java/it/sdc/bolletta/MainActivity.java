@@ -233,10 +233,6 @@ public class MainActivity extends AppCompatActivity {
 
         double totalConsumption = firstMonthResult.getConsumptionKwh() + secondMonthResult.getConsumptionKwh();
         double totalLoss = firstMonthResult.getLossKwh() + secondMonthResult.getLossKwh();
-        double totalQuadroA = firstMonthResult.getQuadroA() + secondMonthResult.getQuadroA();
-        double totalQuadroB = firstMonthResult.getQuadroB() + secondMonthResult.getQuadroB();
-        double totalQuadroC = firstMonthResult.getQuadroC() + secondMonthResult.getQuadroC();
-        double totalQuadroD = firstMonthResult.getQuadroD() + secondMonthResult.getQuadroD();
         double totalFixed = firstMonthResult.getFixedCost() + secondMonthResult.getFixedCost();
         double totalSubtotal = firstMonthResult.getSubtotalWithoutVat() + secondMonthResult.getSubtotalWithoutVat();
         double totalVat = firstMonthResult.getVatCost() + secondMonthResult.getVatCost();
@@ -248,10 +244,6 @@ public class MainActivity extends AppCompatActivity {
                 numberFormat.format(monthTwoKwh),
                 numberFormat.format(totalConsumption),
                 numberFormat.format(totalLoss),
-                numberFormat.format(totalQuadroA),
-                numberFormat.format(totalQuadroB),
-                numberFormat.format(totalQuadroC),
-                numberFormat.format(totalQuadroD),
                 numberFormat.format(totalFixed),
                 numberFormat.format(totalSubtotal),
                 numberFormat.format(totalVat),

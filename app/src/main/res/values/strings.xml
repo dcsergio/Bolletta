@@ -43,7 +43,7 @@
     <string name="button_calculate">Calcola totale bimestrale</string>
 
     <string name="result_placeholder">Inserisci le 2 letture del bimestre, configura i prezzi mensili e calcola il totale.</string>
-    <string name="result_template">Consumo mese 1: %1$s kWh\nConsumo mese 2: %2$s kWh\nConsumo bimestrale: %3$s kWh\nPerdite applicate: %4$s kWh\nQuadro A (Materia): %5$s EUR\nQuadro B (Trasporto): %6$s EUR\nQuadro C (Oneri): %7$s EUR\nQuadro D (Imposte): %8$s EUR\nQuota fissa: %9$s EUR\nTotale IVA esclusa: %10$s EUR\nIVA: %11$s EUR\nTotale bimestrale: %12$s EUR</string>
+    <string name="result_template">Consumo mese 1: %1$s kWh\nConsumo mese 2: %2$s kWh\nConsumo bimestrale: %3$s kWh\nPerdite applicate: %4$s kWh\nQuota fissa: %5$s EUR\nTotale IVA esclusa: %6$s EUR\nIVA: %7$s EUR\nTotale bimestrale: %8$s EUR</string>
     <string name="result_total_format">Totale: %1$s EUR</string>
 
     <string name="error_month">Formato mese non valido. Usa yyyy-MM.</string>
