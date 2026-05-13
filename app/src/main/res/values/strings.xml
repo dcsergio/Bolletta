@@ -1,0 +1,42 @@
+<resources>
+    <string name="app_name">Bolletta</string>
+    <string name="title_readings">Letture bimestrali</string>
+    <string name="label_reading_month_one">Lettura mese 1 (kWh)</string>
+    <string name="label_reading_month_two">Lettura mese 2 (kWh)</string>
+
+    <string name="title_prices">Dati Bolletta</string>
+    <string name="label_price_month">Mese prezzi (yyyy-MM)</string>
+    <string name="label_component">Componente</string>
+    <string name="label_month_one_short">Mese 1</string>
+    <string name="label_month_two_short">Mese 2</string>
+    <string name="label_consumption_kwh">Consumo (kWh)</string>
+    <string name="hint_price_index">Corrispettivo luce index (EUR/kWh)</string>
+    <string name="hint_price_contributo">Contributo al consumo (EUR/kWh)</string>
+    <string name="hint_price_dispacciamento">Dispacciamento (EUR/kWh)</string>
+    <string name="hint_price_trasporto">Trasporto e gestione (EUR/kWh)</string>
+    <string name="hint_price_oneri_asos">Oneri ASOS (EUR/kWh)</string>
+    <string name="hint_price_oneri_arim">Oneri ARIM (EUR/kWh)</string>
+    <string name="hint_price_imposte">Imposte (EUR/kWh)</string>
+    <string name="hint_losses_percent">Perdite di rete (%)</string>
+    <string name="hint_vat_percent">IVA (%)</string>
+    <string name="hint_price_fissa">Quota fissa bimestrale (EUR)</string>
+    <string name="button_copy_month_one_to_month_two">Copia prezzi mese 1 -&gt; mese 2</string>
+    <string name="button_save_prices">Salva prezzi dei due mesi</string>
+
+    <string name="title_calculation">Calcolo bimestrale</string>
+    <string name="hint_period_end">Mese fine bimestre (yyyy-MM)</string>
+    <string name="button_calculate">Calcola totale bimestrale</string>
+
+    <string name="result_placeholder">Inserisci le 2 letture del bimestre, configura i prezzi mensili e calcola il totale.</string>
+    <string name="result_template">Consumo mese 1: %1$s kWh\nConsumo mese 2: %2$s kWh\nConsumo bimestrale: %3$s kWh\nPerdite applicate: %4$s kWh\nQuadro A (Materia): %5$s EUR\nQuadro B (Trasporto): %6$s EUR\nQuadro C (Oneri): %7$s EUR\nQuadro D (Imposte): %8$s EUR\nQuota fissa: %9$s EUR\nTotale IVA esclusa: %10$s EUR\nIVA: %11$s EUR\nTotale bimestrale: %12$s EUR</string>
+
+    <string name="error_month">Formato mese non valido. Usa yyyy-MM.</string>
+    <string name="error_reading">Inserisci letture valide (numeri &gt;= 0).</string>
+    <string name="error_prices">Inserisci tutti i prezzi del mese 1 in formato numerico.</string>
+    <string name="error_missing_prices_for_month">Mancano i prezzi per il mese %1$s.</string>
+
+    <string name="prices_saved">Prezzi aggiornati.</string>
+    <string name="prices_copied">Prezzi copiati dal mese 1 al mese 2.</string>
+    <string name="copy_prices_title">Conferma sovrascrittura</string>
+    <string name="copy_prices_message">I prezzi del mese 2 saranno sovrascritti con quelli del mese 1. Continuare?</string>
+</resources>

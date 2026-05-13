@@ -1,0 +1,512 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:paddingBottom="16dp"
+        android:paddingTop="60dp">
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/title_prices"
+            android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
+            android:textSize="20sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.2"
+                android:text="@string/label_component"
+                android:textAppearance="@style/TextAppearance.Material3.BodySmall" />
+
+            <TextView
+                android:id="@+id/textMonthOneHeader"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/label_month_one_short"
+                android:textAppearance="@style/TextAppearance.Material3.BodySmall" />
+
+            <TextView
+                android:id="@+id/textMonthTwoHeader"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/label_month_two_short"
+                android:textAppearance="@style/TextAppearance.Material3.BodySmall" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1.2"
+                android:text="@string/label_consumption_kwh"
+                android:textAppearance="@style/TextAppearance.Material3.BodySmall" />
+
+            <EditText
+                android:id="@+id/inputReadingMonthOne"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_weight="1"
+                android:autofillHints="none"
+                android:hint="@string/label_reading_month_one"
+                android:inputType="numberDecimal"
+                android:maxLines="1"
+                android:imeOptions="actionNext"
+                android:nextFocusDown="@id/inputReadingMonthTwo" />
+
+            <EditText
+                android:id="@+id/inputReadingMonthTwo"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_weight="1"
+                android:autofillHints="none"
+                android:hint="@string/label_reading_month_two"
+                android:inputType="numberDecimal"
+                android:maxLines="1"
+                android:imeOptions="actionDone" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1.2"
+                android:text="@string/hint_price_index"
+                android:textAppearance="@style/TextAppearance.Material3.BodySmall" />
+
+            <EditText
+                android:id="@+id/inputPriceIndex"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_weight="1"
+                android:autofillHints="none"
+                android:hint="@string/label_month_one_short"
+                android:inputType="numberDecimal"
+                android:maxLines="1" />
+
+            <EditText
+                android:id="@+id/inputPriceIndexMonthTwo"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_weight="1"
+                android:autofillHints="none"
+                android:hint="@string/label_month_two_short"
+                android:inputType="numberDecimal"
+                android:maxLines="1" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1.2"
+                android:text="@string/hint_price_contributo"
+                android:textAppearance="@style/TextAppearance.Material3.BodySmall" />
+
+            <EditText
+                android:id="@+id/inputPriceContributo"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_weight="1"
+                android:autofillHints="none"
+                android:hint="@string/label_month_one_short"
+                android:inputType="numberDecimal"
+                android:maxLines="1" />
+
+            <EditText
+                android:id="@+id/inputPriceContributoMonthTwo"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_weight="1"
+                android:autofillHints="none"
+                android:hint="@string/label_month_two_short"
+                android:inputType="numberDecimal"
+                android:maxLines="1" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1.2"
+                android:text="@string/hint_price_dispacciamento"
+                android:textAppearance="@style/TextAppearance.Material3.BodySmall" />
+
+            <EditText
+                android:id="@+id/inputPriceDispacciamento"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_weight="1"
+                android:autofillHints="none"
+                android:hint="@string/label_month_one_short"
+                android:inputType="numberDecimal"
+                android:maxLines="1" />
+
+            <EditText
+                android:id="@+id/inputPriceDispacciamentoMonthTwo"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_weight="1"
+                android:autofillHints="none"
+                android:hint="@string/label_month_two_short"
+                android:inputType="numberDecimal"
+                android:maxLines="1" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1.2"
+                android:text="@string/hint_price_trasporto"
+                android:textAppearance="@style/TextAppearance.Material3.BodySmall" />
+
+            <EditText
+                android:id="@+id/inputPriceTrasporto"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_weight="1"
+                android:autofillHints="none"
+                android:hint="@string/label_month_one_short"
+                android:inputType="numberDecimal"
+                android:maxLines="1" />
+
+            <EditText
+                android:id="@+id/inputPriceTrasportoMonthTwo"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_weight="1"
+                android:autofillHints="none"
+                android:hint="@string/label_month_two_short"
+                android:inputType="numberDecimal"
+                android:maxLines="1" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1.2"
+                android:text="@string/hint_price_oneri_asos"
+                android:textAppearance="@style/TextAppearance.Material3.BodySmall" />
+
+            <EditText
+                android:id="@+id/inputPriceOneriAsos"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_weight="1"
+                android:autofillHints="none"
+                android:hint="@string/label_month_one_short"
+                android:inputType="numberDecimal"
+                android:maxLines="1" />
+
+            <EditText
+                android:id="@+id/inputPriceOneriAsosMonthTwo"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_weight="1"
+                android:autofillHints="none"
+                android:hint="@string/label_month_two_short"
+                android:inputType="numberDecimal"
+                android:maxLines="1" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1.2"
+                android:text="@string/hint_price_oneri_arim"
+                android:textAppearance="@style/TextAppearance.Material3.BodySmall" />
+
+            <EditText
+                android:id="@+id/inputPriceOneriArim"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_weight="1"
+                android:autofillHints="none"
+                android:hint="@string/label_month_one_short"
+                android:inputType="numberDecimal"
+                android:maxLines="1" />
+
+            <EditText
+                android:id="@+id/inputPriceOneriArimMonthTwo"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_weight="1"
+                android:autofillHints="none"
+                android:hint="@string/label_month_two_short"
+                android:inputType="numberDecimal"
+                android:maxLines="1" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1.2"
+                android:text="@string/hint_price_imposte"
+                android:textAppearance="@style/TextAppearance.Material3.BodySmall" />
+
+            <EditText
+                android:id="@+id/inputPriceImposte"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_weight="1"
+                android:autofillHints="none"
+                android:hint="@string/label_month_one_short"
+                android:inputType="numberDecimal"
+                android:maxLines="1" />
+
+            <EditText
+                android:id="@+id/inputPriceImposteMonthTwo"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_weight="1"
+                android:autofillHints="none"
+                android:hint="@string/label_month_two_short"
+                android:inputType="numberDecimal"
+                android:maxLines="1" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1.2"
+                android:text="@string/hint_losses_percent"
+                android:textAppearance="@style/TextAppearance.Material3.BodySmall" />
+
+            <EditText
+                android:id="@+id/inputLossesPercent"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_weight="1"
+                android:autofillHints="none"
+                android:hint="@string/label_month_one_short"
+                android:inputType="numberDecimal"
+                android:maxLines="1" />
+
+            <EditText
+                android:id="@+id/inputLossesPercentMonthTwo"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_weight="1"
+                android:autofillHints="none"
+                android:hint="@string/label_month_two_short"
+                android:inputType="numberDecimal"
+                android:maxLines="1" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1.2"
+                android:text="@string/hint_vat_percent"
+                android:textAppearance="@style/TextAppearance.Material3.BodySmall" />
+
+            <EditText
+                android:id="@+id/inputVatPercent"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_weight="1"
+                android:autofillHints="none"
+                android:hint="@string/label_month_one_short"
+                android:inputType="numberDecimal"
+                android:maxLines="1" />
+
+            <EditText
+                android:id="@+id/inputVatPercentMonthTwo"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_weight="1"
+                android:autofillHints="none"
+                android:hint="@string/label_month_two_short"
+                android:inputType="numberDecimal"
+                android:maxLines="1" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1.2"
+                android:text="@string/hint_price_fissa"
+                android:textAppearance="@style/TextAppearance.Material3.BodySmall" />
+
+            <EditText
+                android:id="@+id/inputPriceFissa"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_weight="1"
+                android:autofillHints="none"
+                android:hint="@string/label_month_one_short"
+                android:inputType="numberDecimal"
+                android:maxLines="1" />
+
+            <EditText
+                android:id="@+id/inputPriceFissaMonthTwo"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_weight="1"
+                android:autofillHints="none"
+                android:hint="@string/label_month_two_short"
+                android:inputType="numberDecimal"
+                android:maxLines="1" />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/buttonCopyMonthOneToMonthTwo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="@string/button_copy_month_one_to_month_two" />
+
+        <Button
+            android:id="@+id/buttonSavePrices"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/button_save_prices" />
+
+
+        <Button
+            android:id="@+id/buttonCalculate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/button_calculate" />
+
+        <TextView
+            android:id="@+id/textResult"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="@string/result_placeholder"
+            android:textAppearance="@style/TextAppearance.Material3.BodySmall" />
+
+        <TextView
+            android:id="@+id/textResultTotal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:padding="12dp"
+            android:text=""
+            android:textColor="#FF000000"
+            android:textStyle="bold"
+            android:textSize="24sp"
+            android:gravity="center"
+            android:textAppearance="@style/TextAppearance.Material3.HeadlineSmall" />
+
+    </LinearLayout>
+
+</ScrollView>
