@@ -1,17 +1,20 @@
 package it.sdc.bolletta;
 
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.text.TextUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.text.DecimalFormat;
+import java.util.Arrays;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -26,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
     private static final String KEY_PERDITE_PERCENT = "perdite_percent";
     private static final String KEY_IVA_PERCENT = "iva_percent";
     private static final String KEY_PRICE_FISSA = "price_fissa";
+    private static final String KEY_INHERITED_PREFIX = "inherited_";
     private static final String SLOT_MONTH_ONE = "month_one";
     private static final String SLOT_MONTH_TWO = "month_two";
 
@@ -39,10 +43,23 @@ public class MainActivity extends AppCompatActivity {
     private static final double DEFAULT_PERDITE_PERCENT = 10.0d;
     private static final double DEFAULT_IVA_PERCENT = 10.0d;
     private static final double DEFAULT_FISSA = 0.0d;
+    private static final int MONTH_TWO_INHERITED_BACKGROUND_COLOR = 0x1FF57C00;
 
     private final DecimalFormat numberFormat = new DecimalFormat("0.000");
     private final DecimalFormat inputFormat = new DecimalFormat("0.######");
     private final DecimalFormat totalFormat = new DecimalFormat("0.00");
+    private final String[] tariffPreferenceKeys = new String[]{
+            KEY_PRICE_INDEX,
+            KEY_PRICE_CONTRIBUTO,
+            KEY_PRICE_DISPACCIAMENTO,
+            KEY_PRICE_TRASPORTO,
+            KEY_PRICE_ONERI_ASOS,
+            KEY_PRICE_ONERI_ARIM,
+            KEY_PRICE_IMPOSTE,
+            KEY_PERDITE_PERCENT,
+            KEY_IVA_PERCENT,
+            KEY_PRICE_FISSA
+    };
 
     private EditText readingMonthOneInput;
     private EditText readingMonthTwoInput;
@@ -53,6 +70,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView resultView;
     private TextView resultTotalView;
     private SharedPreferences preferences;
+    private boolean isUpdatingMonthTwoField;
 
     private static final class MonthTariffInputs {
         final EditText priceIndexInput;
@@ -88,6 +106,21 @@ public class MainActivity extends AppCompatActivity {
             this.lossesPercentInput = lossesPercentInput;
             this.ivaPercentInput = ivaPercentInput;
             this.priceFissaInput = priceFissaInput;
+        }
+
+        EditText[] asArray() {
+            return new EditText[]{
+                    priceIndexInput,
+                    priceContributoInput,
+                    priceDispacciamentoInput,
+                    priceTrasportoInput,
+                    priceOneriAsosInput,
+                    priceOneriArimInput,
+                    priceImposteInput,
+                    lossesPercentInput,
+                    ivaPercentInput,
+                    priceFissaInput
+            };
         }
     }
 
@@ -137,33 +170,107 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setupActions() {
-        Button copyPricesButton = findViewById(R.id.buttonCopyMonthOneToMonthTwo);
         Button savePricesButton = findViewById(R.id.buttonSavePrices);
         Button calculateButton = findViewById(R.id.buttonCalculate);
 
-        copyPricesButton.setOnClickListener(v -> confirmCopyMonthOneToMonthTwo());
+        setupFieldNavigation();
+        setupMonthOneAutoCopy();
+        setupMonthTwoInheritanceTracking();
         savePricesButton.setOnClickListener(v -> saveTariffsForPeriod());
         calculateButton.setOnClickListener(v -> calculatePeriod());
     }
 
-    private void confirmCopyMonthOneToMonthTwo() {
-        new AlertDialog.Builder(this)
-                .setTitle(R.string.copy_prices_title)
-                .setMessage(R.string.copy_prices_message)
-                .setPositiveButton(android.R.string.ok, (dialog, which) -> copyMonthOneToMonthTwo())
-                .setNegativeButton(android.R.string.cancel, null)
-                .show();
-    }
+    private void setupFieldNavigation() {
+        readingMonthOneInput.setNextFocusForwardId(R.id.inputReadingMonthTwo);
+        readingMonthOneInput.setNextFocusDownId(R.id.inputReadingMonthTwo);
+        readingMonthTwoInput.setNextFocusForwardId(R.id.inputPriceIndex);
+        readingMonthTwoInput.setNextFocusDownId(R.id.inputPriceIndex);
 
-    private void copyMonthOneToMonthTwo() {
-        TariffConfig firstMonthConfig = parseRequiredTariffConfig(monthOneTariffInputs);
-        if (firstMonthConfig == null) {
-            toast(getString(R.string.error_prices));
-            return;
+        EditText[] orderedInputs = new EditText[]{
+                monthOneTariffInputs.priceIndexInput,
+                monthOneTariffInputs.priceContributoInput,
+                monthOneTariffInputs.priceDispacciamentoInput,
+                monthOneTariffInputs.priceTrasportoInput,
+                monthOneTariffInputs.priceOneriAsosInput,
+                monthOneTariffInputs.priceOneriArimInput,
+                monthOneTariffInputs.priceImposteInput,
+                monthOneTariffInputs.lossesPercentInput,
+                monthOneTariffInputs.ivaPercentInput,
+                monthOneTariffInputs.priceFissaInput,
+                monthTwoTariffInputs.priceIndexInput,
+                monthTwoTariffInputs.priceContributoInput,
+                monthTwoTariffInputs.priceDispacciamentoInput,
+                monthTwoTariffInputs.priceTrasportoInput,
+                monthTwoTariffInputs.priceOneriAsosInput,
+                monthTwoTariffInputs.priceOneriArimInput,
+                monthTwoTariffInputs.priceImposteInput,
+                monthTwoTariffInputs.lossesPercentInput,
+                monthTwoTariffInputs.ivaPercentInput,
+                monthTwoTariffInputs.priceFissaInput
+        };
+
+        for (int i = 0; i < orderedInputs.length - 1; i++) {
+            int nextViewId = orderedInputs[i + 1].getId();
+            orderedInputs[i].setNextFocusForwardId(nextViewId);
+            orderedInputs[i].setNextFocusDownId(nextViewId);
         }
 
-        setTariffInputs(monthTwoTariffInputs, firstMonthConfig);
-        toast(getString(R.string.prices_copied));
+        EditText lastInput = orderedInputs[orderedInputs.length - 1];
+        lastInput.setNextFocusForwardId(R.id.buttonSavePrices);
+        lastInput.setNextFocusDownId(R.id.buttonSavePrices);
+    }
+
+    private void setupMonthOneAutoCopy() {
+        bindAutoCopyOnFocusChange(monthOneTariffInputs.priceIndexInput, monthTwoTariffInputs.priceIndexInput);
+        bindAutoCopyOnFocusChange(monthOneTariffInputs.priceContributoInput, monthTwoTariffInputs.priceContributoInput);
+        bindAutoCopyOnFocusChange(monthOneTariffInputs.priceDispacciamentoInput, monthTwoTariffInputs.priceDispacciamentoInput);
+        bindAutoCopyOnFocusChange(monthOneTariffInputs.priceTrasportoInput, monthTwoTariffInputs.priceTrasportoInput);
+        bindAutoCopyOnFocusChange(monthOneTariffInputs.priceOneriAsosInput, monthTwoTariffInputs.priceOneriAsosInput);
+        bindAutoCopyOnFocusChange(monthOneTariffInputs.priceOneriArimInput, monthTwoTariffInputs.priceOneriArimInput);
+        bindAutoCopyOnFocusChange(monthOneTariffInputs.priceImposteInput, monthTwoTariffInputs.priceImposteInput);
+        bindAutoCopyOnFocusChange(monthOneTariffInputs.lossesPercentInput, monthTwoTariffInputs.lossesPercentInput);
+        bindAutoCopyOnFocusChange(monthOneTariffInputs.ivaPercentInput, monthTwoTariffInputs.ivaPercentInput);
+        bindAutoCopyOnFocusChange(monthOneTariffInputs.priceFissaInput, monthTwoTariffInputs.priceFissaInput);
+    }
+
+    private void bindAutoCopyOnFocusChange(EditText source, EditText target) {
+        source.setOnFocusChangeListener((v, hasFocus) -> {
+            if (hasFocus) {
+                return;
+            }
+
+            String sourceValue = source.getText() == null ? "" : source.getText().toString();
+            String targetValue = target.getText() == null ? "" : target.getText().toString();
+            boolean targetInherited = isMonthTwoFieldInherited(target);
+            boolean targetIsEmpty = TextUtils.isEmpty(targetValue.trim());
+
+            if (targetInherited || targetIsEmpty) {
+                updateMonthTwoField(target, sourceValue);
+            }
+        });
+    }
+
+    private void setupMonthTwoInheritanceTracking() {
+        for (EditText input : monthTwoTariffInputs.asArray()) {
+            input.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+                    if (isUpdatingMonthTwoField) {
+                        return;
+                    }
+
+                    setMonthTwoFieldInherited(input, TextUtils.isEmpty(s == null ? "" : s.toString().trim()));
+                }
+            });
+        }
     }
 
     private void saveTariffsForPeriod() {
@@ -181,6 +288,7 @@ public class MainActivity extends AppCompatActivity {
 
         persistTariffForSlot(SLOT_MONTH_ONE, firstMonthConfig);
         persistTariffForSlot(SLOT_MONTH_TWO, secondMonthConfig);
+        persistMonthTwoInheritanceState();
 
         toast(getString(R.string.prices_saved));
     }
@@ -193,10 +301,12 @@ public class MainActivity extends AppCompatActivity {
         setTariffInputs(monthOneTariffInputs, firstMonthConfig);
 
         TariffConfig secondMonthConfig = tariffConfigForSlot(SLOT_MONTH_TWO);
+        boolean hasSavedSecondMonthConfig = secondMonthConfig != null;
         if (secondMonthConfig == null) {
             secondMonthConfig = firstMonthConfig;
         }
         setTariffInputs(monthTwoTariffInputs, secondMonthConfig);
+        applyLoadedMonthTwoInheritanceState(hasSavedSecondMonthConfig);
     }
 
     private void calculatePeriod() {
@@ -221,19 +331,20 @@ public class MainActivity extends AppCompatActivity {
 
         persistTariffForSlot(SLOT_MONTH_ONE, firstMonthConfig);
         persistTariffForSlot(SLOT_MONTH_TWO, secondMonthConfig);
+        persistMonthTwoInheritanceState();
 
         BillingCalculator.Result firstMonthResult = BillingCalculator.calculateBimonthlyTotal(
                 monthOneKwh,
-                withHalfFixedCost(firstMonthConfig)
+                firstMonthConfig
         );
         BillingCalculator.Result secondMonthResult = BillingCalculator.calculateBimonthlyTotal(
                 monthTwoKwh,
-                withHalfFixedCost(secondMonthConfig)
+                secondMonthConfig
         );
 
         double totalConsumption = firstMonthResult.getConsumptionKwh() + secondMonthResult.getConsumptionKwh();
         double totalLoss = firstMonthResult.getLossKwh() + secondMonthResult.getLossKwh();
-        double totalFixed = firstMonthResult.getFixedCost() + secondMonthResult.getFixedCost();
+        double totalFixedCost = firstMonthResult.getFixedCost() + secondMonthResult.getFixedCost();
         double totalSubtotal = firstMonthResult.getSubtotalWithoutVat() + secondMonthResult.getSubtotalWithoutVat();
         double totalVat = firstMonthResult.getVatCost() + secondMonthResult.getVatCost();
         double total = firstMonthResult.getTotal() + secondMonthResult.getTotal();
@@ -244,7 +355,7 @@ public class MainActivity extends AppCompatActivity {
                 numberFormat.format(monthTwoKwh),
                 numberFormat.format(totalConsumption),
                 numberFormat.format(totalLoss),
-                numberFormat.format(totalFixed),
+                numberFormat.format(totalFixedCost),
                 numberFormat.format(totalSubtotal),
                 numberFormat.format(totalVat),
                 numberFormat.format(total)
@@ -352,6 +463,79 @@ public class MainActivity extends AppCompatActivity {
         inputs.priceFissaInput.setText(inputFormat.format(config.getQuotaFissaBimestrale()));
     }
 
+    private void applyLoadedMonthTwoInheritanceState(boolean hasSavedSecondMonthConfig) {
+        boolean[] inheritedStates = restoreMonthTwoInheritanceStates(hasSavedSecondMonthConfig);
+        EditText[] monthOneFields = monthOneTariffInputs.asArray();
+        EditText[] monthTwoFields = monthTwoTariffInputs.asArray();
+
+        for (int i = 0; i < monthTwoFields.length; i++) {
+            if (inheritedStates[i]) {
+                String sourceValue = monthOneFields[i].getText() == null ? "" : monthOneFields[i].getText().toString();
+                updateMonthTwoField(monthTwoFields[i], sourceValue);
+            } else {
+                setMonthTwoFieldInherited(monthTwoFields[i], false);
+            }
+        }
+    }
+
+    private boolean[] restoreMonthTwoInheritanceStates(boolean hasSavedSecondMonthConfig) {
+        boolean[] inheritedStates = new boolean[tariffPreferenceKeys.length];
+
+        if (!hasSavedSecondMonthConfig) {
+            Arrays.fill(inheritedStates, true);
+            return inheritedStates;
+        }
+
+        if (!hasMonthTwoInheritanceState()) {
+            return inheritedStates;
+        }
+
+        for (int i = 0; i < tariffPreferenceKeys.length; i++) {
+            inheritedStates[i] = preferences.getBoolean(slotKey(inheritedKey(tariffPreferenceKeys[i]), SLOT_MONTH_TWO), false);
+        }
+        return inheritedStates;
+    }
+
+    private boolean hasMonthTwoInheritanceState() {
+        for (String key : tariffPreferenceKeys) {
+            if (!preferences.contains(slotKey(inheritedKey(key), SLOT_MONTH_TWO))) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private void persistMonthTwoInheritanceState() {
+        SharedPreferences.Editor editor = preferences.edit();
+        EditText[] monthTwoFields = monthTwoTariffInputs.asArray();
+
+        for (int i = 0; i < tariffPreferenceKeys.length; i++) {
+            editor.putBoolean(
+                    slotKey(inheritedKey(tariffPreferenceKeys[i]), SLOT_MONTH_TWO),
+                    isMonthTwoFieldInherited(monthTwoFields[i])
+            );
+        }
+
+        editor.apply();
+    }
+
+    private void updateMonthTwoField(EditText target, String value) {
+        isUpdatingMonthTwoField = true;
+        target.setText(value);
+        setMonthTwoFieldInherited(target, true);
+        isUpdatingMonthTwoField = false;
+    }
+
+    private void setMonthTwoFieldInherited(EditText input, boolean inherited) {
+        input.setTag(inherited);
+        input.setBackgroundColor(inherited ? MONTH_TWO_INHERITED_BACKGROUND_COLOR : Color.TRANSPARENT);
+    }
+
+    private boolean isMonthTwoFieldInherited(EditText input) {
+        Object tag = input.getTag();
+        return tag instanceof Boolean && (Boolean) tag;
+    }
+
     private void persistTariffForSlot(String slot, TariffConfig config) {
         preferences.edit()
                 .putLong(slotKey(KEY_PRICE_INDEX, slot), Double.doubleToRawLongBits(config.getCorrispettivoLuceIndexPerKwh()))
@@ -404,20 +588,6 @@ public class MainActivity extends AppCompatActivity {
                 && preferences.contains(slotKey(KEY_PRICE_FISSA, slot));
     }
 
-    private TariffConfig withHalfFixedCost(TariffConfig config) {
-        return new TariffConfig(
-                config.getCorrispettivoLuceIndexPerKwh(),
-                config.getContributoConsumoPerKwh(),
-                config.getDispacciamentoPerKwh(),
-                config.getTrasportoPerKwh(),
-                config.getOneriAsosPerKwh(),
-                config.getOneriArimPerKwh(),
-                config.getImpostePerKwh(),
-                config.getPerditePercent(),
-                config.getIvaPercent(),
-                config.getQuotaFissaBimestrale() / 2d
-        );
-    }
 
     private Double parseDoubleOrNull(String text) {
         if (TextUtils.isEmpty(text)) {
@@ -433,6 +603,10 @@ public class MainActivity extends AppCompatActivity {
 
     private String slotKey(String key, String slot) {
         return key + "_" + slot;
+    }
+
+    private String inheritedKey(String key) {
+        return KEY_INHERITED_PREFIX + key;
     }
 
     private void toast(String message) {

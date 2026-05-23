@@ -11,7 +11,7 @@
     <string name="label_month_two_short">Mese 2</string>
     <string name="label_consumption_kwh">Consumo (kWh)</string>
     <string name="label_index_short">Index</string>
-    <string name="label_contributo_short">Contributo</string>
+    <string name="label_contributo_short">C. Cons.</string>
     <string name="label_dispacciamento_short">Dispacc.</string>
     <string name="label_trasporto_short">Trasporto</string>
     <string name="label_oneri_asos_short">Oneri ASOS</string>
@@ -35,7 +35,6 @@
     <string name="hint_losses_percent">Perdite di rete (%)</string>
     <string name="hint_vat_percent">IVA (%)</string>
     <string name="hint_price_fissa">Quota fissa bimestrale (EUR)</string>
-    <string name="button_copy_month_one_to_month_two">Copia prezzi mese 1 -&gt; mese 2</string>
     <string name="button_save_prices">Salva prezzi dei due mesi</string>
 
     <string name="title_calculation">Calcolo bimestrale</string>
@@ -52,7 +51,4 @@
     <string name="error_missing_prices_for_month">Mancano i prezzi per il mese %1$s.</string>
 
     <string name="prices_saved">Prezzi aggiornati.</string>
-    <string name="prices_copied">Prezzi copiati dal mese 1 al mese 2.</string>
-    <string name="copy_prices_title">Conferma sovrascrittura</string>
-    <string name="copy_prices_message">I prezzi del mese 2 saranno sovrascritti con quelli del mese 1. Continuare?</string>
 </resources>

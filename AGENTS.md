@@ -2,9 +2,9 @@
 
 ## Project Overview
 
-**Bolletta** is an Android utility app (Italian) for monitoring electricity consumption and calculating bimonthly bills. Users log monthly meter readings and configure tariff prices matching Italian utility bill structure (Quadri A/B/C/D). The app calculates consumption-based charges with loss adjustments, fixed costs, and VAT.
+**Bolletta** is an Android utility app (Italian) for estimating bimonthly electricity bills. Users enter 2 monthly consumption values (mese 1 / mese 2) and configure tariff prices matching Italian utility bill structure (Quadri A/B/C/D), with separate tariff columns for the two months when needed. The app calculates consumption-based charges with loss adjustments, fixed costs, and VAT.
 
-**Language**: Java | **Min SDK**: 31 | **Target SDK**: 34 | **Build System**: Gradle (Kotlin DSL)
+**Language**: Java | **Min SDK**: 31 | **Compile SDK**: 37 | **Target SDK**: 37 | **Build System**: Gradle (Kotlin DSL)
 
 ## Architecture & Components
 
@@ -12,9 +12,10 @@
 
 1. **UI & Persistence Layer** (`MainActivity.java`)  
    - Single-activity architecture binding `R.layout.activity_main`
-   - All state persisted to `SharedPreferences` (key prefix: "bolletta_prefs")
-   - Monthly readings stored as `reading_yyyy-MM` float entries
-   - Tariff prices cached with `KEY_PRICE_*` constants (10 configuration values)
+   - Persisted state stored in `SharedPreferences` (key prefix: "bolletta_prefs")
+   - Tariff prices cached with `KEY_PRICE_*` constants for two slots: `month_one` and `month_two` (10 configuration values per slot)
+   - Uses `MonthTariffInputs` as an inner helper to bind the duplicated month-1/month-2 tariff columns
+   - On first load, month 1 is populated from `DEFAULT_*` constants; month 2 mirrors month 1 when no dedicated slot is saved
 
 2. **Configuration Model** (`TariffConfig.java`)  
    - Immutable data class holding 10 tariff rates + percentages
@@ -29,14 +30,14 @@
 ### Data Flow
 
 ```
-User Input (3 meter readings) 
-  → MainActivity calculates kWh differences (month1 = mid - start, month2 = end - mid)
-  → TariffConfig created from UI form inputs
-  → BillingCalculator.calculateBimonthlyTotal()
-  → Result formatted & displayed in resultView (TextView)
+User Input (2 monthly kWh values + 2 tariff columns)
+  → MainActivity parses month 1 prices with `parseRequiredTariffConfig()`
+  → MainActivity parses month 2 prices with `parseSecondMonthTariffConfig()` (empty fields fall back to month 1)
+  → BillingCalculator.calculateBimonthlyTotal() runs once per month
+  → MainActivity sums both `Result` objects and displays details in `resultView` plus the final total in `resultTotalView`
 ```
 
-**Critical**: Readings are stored in SharedPreferences; calculations are **not** persisted—results are ephemeral and recalculated on demand.
+**Critical**: Only tariff configurations are stored in `SharedPreferences`; the two consumption inputs and all calculated totals are ephemeral and recalculated on demand.
 
 ## Billing Calculation Pattern
 
@@ -55,6 +56,8 @@ Total = Subtotal + VAT
 
 **Key insight**: Losses (perdite) are added to base consumption **only** for corrispettivo+contributo; dispacciamento, transport, and other charges apply only to base consumption.
 
+In the current UI, the calculator is applied independently to month 1 and month 2, then the two `BillingCalculator.Result` totals are summed in `MainActivity.calculatePeriod()`.
+
 ## Developer Workflows
 
 ### Run Tests
@@ -63,6 +66,8 @@ cd C:\Users\sergi\AndroidStudioProjects\Bolletta
 .\gradlew.bat test
 ```
 Tests live in `app/src/test/java/it/sdc/bolletta/ExampleUnitTest.java`—verify calcs with known tariff configs (see: `bimonthlyCalculation_isCorrect()` for reference values).
+
+The app module compiles with Java 17 (`sourceCompatibility` / `targetCompatibility` in `app/build.gradle.kts`).
 
 ### Build Debug APK
 ```powershell
@@ -79,38 +84,46 @@ Output: `app/build/outputs/apk/debug/app-debug.apk`
 ## Key Conventions
 
 ### Naming & Formatting
-- **Month format**: `yyyy-MM` (e.g., "2026-05") via `DateTimeFormatter.ofPattern("yyyy-MM")`
-- **Locale handling**: No explicit locale set; relies on device default for parsing commas-as-decimals (line 270: `.replace(',', '.')`)
-- **Number display**: `DecimalFormat("0.000")` for 3 decimal places in results
+- **Numeric parsing**: `parseDoubleOrNull()` trims input and normalizes commas to dots via `.replace(',', '.')`
+- **Number display**: `DecimalFormat("0.000")` for result details, `DecimalFormat("0.00")` for the highlighted total, and `DecimalFormat("0.######")` when pre-filling tariff inputs
 
 ### SharedPreferences Keys
-All keys are class constants in MainActivity (`KEY_PRICE_INDEX`, etc.). Monthly readings use dynamic keys: `readingKey(YearMonth)` → `"reading_" + month.format(YEAR_MONTH_FORMAT)`.
+All keys are class constants in `MainActivity` (`KEY_PRICE_INDEX`, etc.). Tariff entries are namespaced per slot through `slotKey(key, slot)`, e.g. `slotKey(KEY_PRICE_INDEX, SLOT_MONTH_ONE)` → `"price_index_month_one"`.
+
+Tariff values are persisted as raw `double` bits with `putLong(..., Double.doubleToRawLongBits(value))` and restored with `Double.longBitsToDouble(...)`.
 
 ### Validation Rules
-- **Readings**: Must be ≥ 0 (toast error: "Insert a valid reading")
-- **Prices**: All 10 tariff fields required; any null or empty field blocks save
-- **Month input**: Must parse as valid `yyyy-MM` or raises `IllegalArgumentException`
+- **Consumption inputs**: Both month-1 and month-2 kWh fields must parse as numbers ≥ 0 (`error_reading` toast)
+- **Prices**: All 10 month-1 tariff fields are required for save/calculate
+- **Month 2 prices**: Empty fields are allowed and inherit month-1 values; non-empty invalid numeric input still blocks save/calculate
 
 ## Important Patterns & Edge Cases
 
 ### Missing Data Handling
-If calculating a bimonthly period and any of the 3 readings (start, mid, end) is missing from SharedPreferences, display error naming the missing months—do **not** estimate or zero-fill.
+There is no persisted 3-reading lookup in the current app. Missing or invalid month-1/month-2 consumption input blocks calculation with `error_reading`; missing month-1 tariff fields block both save and calculate with `error_prices`.
+
+Month-2 tariff inputs are treated differently: `parseSecondMonthTariffConfig()` uses `parseDoubleOrFallback()`, so blank fields inherit the month-1 `TariffConfig` instead of failing validation.
 
 ### Reminder Logic
-On app launch, if today is the last day of the current month AND the current month's reading is absent, auto-populate the month field and show a reminder prompt in resultView.
+There is no calendar-based reminder or month auto-population flow in the current `MainActivity`. Before any calculation, `textResult` simply shows `@string/result_placeholder`.
 
 ### Decimal Precision
-- Use `double` for calculation; convert to `float` for SharedPreferences storage/retrieval
+- Use `double` for calculation and for persisted tariff values in `SharedPreferences` (stored via raw long bits, not `float`)
 - Loss percentage is applied as: `loss_kwh = consumption × (percent / 100.0)`
 - VAT percentage applied the same way to subtotal
+
+Backward compatibility note: `tariffConfigForSlot()` catches `ClassCastException` and returns `null` when older preferences still contain `float` values; callers then reload defaults for month 1 or mirror month 1 into month 2.
 
 ## Integration Points & External Dependencies
 
 - **AndroidX AppCompat** (`androidx.appcompat:appcompat:1.7.0`): Base Activity
 - **Material Design** (`com.google.android.material:material:1.12.0`): UI components
+- **AndroidX Activity** (`androidx.activity:activity:1.9.0`): Activity support dependency declared in the app module
+- **AndroidX Fragment** (`androidx.fragment:fragment:1.8.9`): Fragment support dependency declared in the app module
 - **ConstraintLayout** (`androidx.constraintlayout:constraintlayout:2.1.4`): Layout inflation
 - **JUnit 4** (`junit:junit:4.13.2`): Unit test runner
-- **Gradle AGP 8.13.2**: Build orchestration
+- **AndroidX Test** (`androidx.test.ext:junit:1.2.1`, `androidx.test.espresso:espresso-core:3.6.1`): Instrumentation test dependencies
+- **Gradle AGP 9.2.1**: Build orchestration
 
 No external database, network, or third-party calculation libraries—all logic is embedded.
 
@@ -119,8 +132,8 @@ No external database, network, or third-party calculation libraries—all logic 
 ### Adding New Tariff Rates
 1. Add new field to `TariffConfig` (constructor, getter, field)
 2. Add corresponding `KEY_*` constant to `MainActivity`
-3. Add EditText binding in `bindViews()`, `loadTariffs()`, `saveTariffs()`
-4. Update the `calculateBimonthlyTotal()` formula in `BillingCalculator`
+3. Add both month-1 and month-2 `EditText` bindings via `MonthTariffInputs` in `bindViews()`, plus mapping in `setTariffInputs()`, `parseRequiredTariffConfig()`, and `parseSecondMonthTariffConfig()`
+4. Update slot persistence in `persistTariffForSlot()` / `tariffConfigForSlot()` and the `calculateBimonthlyTotal()` formula in `BillingCalculator`
 5. Update test reference values in `ExampleUnitTest.java`
 
 ### Modifying Calculation Logic
