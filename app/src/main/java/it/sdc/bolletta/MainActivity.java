@@ -72,57 +72,28 @@ public class MainActivity extends AppCompatActivity {
     private SharedPreferences preferences;
     private boolean isUpdatingMonthTwoField;
 
-    private static final class MonthTariffInputs {
-        final EditText priceIndexInput;
-        final EditText priceContributoInput;
-        final EditText priceDispacciamentoInput;
-        final EditText priceTrasportoInput;
-        final EditText priceOneriAsosInput;
-        final EditText priceOneriArimInput;
-        final EditText priceImposteInput;
-        final EditText lossesPercentInput;
-        final EditText ivaPercentInput;
-        final EditText priceFissaInput;
-
-        MonthTariffInputs(
-                EditText priceIndexInput,
-                EditText priceContributoInput,
-                EditText priceDispacciamentoInput,
-                EditText priceTrasportoInput,
-                EditText priceOneriAsosInput,
-                EditText priceOneriArimInput,
-                EditText priceImposteInput,
-                EditText lossesPercentInput,
-                EditText ivaPercentInput,
-                EditText priceFissaInput
-        ) {
-            this.priceIndexInput = priceIndexInput;
-            this.priceContributoInput = priceContributoInput;
-            this.priceDispacciamentoInput = priceDispacciamentoInput;
-            this.priceTrasportoInput = priceTrasportoInput;
-            this.priceOneriAsosInput = priceOneriAsosInput;
-            this.priceOneriArimInput = priceOneriArimInput;
-            this.priceImposteInput = priceImposteInput;
-            this.lossesPercentInput = lossesPercentInput;
-            this.ivaPercentInput = ivaPercentInput;
-            this.priceFissaInput = priceFissaInput;
-        }
+    private record MonthTariffInputs(EditText priceIndexInput, EditText priceContributoInput,
+                                     EditText priceDispacciamentoInput,
+                                     EditText priceTrasportoInput, EditText priceOneriAsosInput,
+                                     EditText priceOneriArimInput, EditText priceImposteInput,
+                                     EditText lossesPercentInput, EditText ivaPercentInput,
+                                     EditText priceFissaInput) {
 
         EditText[] asArray() {
-            return new EditText[]{
-                    priceIndexInput,
-                    priceContributoInput,
-                    priceDispacciamentoInput,
-                    priceTrasportoInput,
-                    priceOneriAsosInput,
-                    priceOneriArimInput,
-                    priceImposteInput,
-                    lossesPercentInput,
-                    ivaPercentInput,
-                    priceFissaInput
-            };
+                return new EditText[]{
+                        priceIndexInput,
+                        priceContributoInput,
+                        priceDispacciamentoInput,
+                        priceTrasportoInput,
+                        priceOneriAsosInput,
+                        priceOneriArimInput,
+                        priceImposteInput,
+                        lossesPercentInput,
+                        ivaPercentInput,
+                        priceFissaInput
+                };
+            }
         }
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -342,12 +313,12 @@ public class MainActivity extends AppCompatActivity {
                 secondMonthConfig
         );
 
-        double totalConsumption = firstMonthResult.getConsumptionKwh() + secondMonthResult.getConsumptionKwh();
-        double totalLoss = firstMonthResult.getLossKwh() + secondMonthResult.getLossKwh();
-        double totalFixedCost = firstMonthResult.getFixedCost() + secondMonthResult.getFixedCost();
-        double totalSubtotal = firstMonthResult.getSubtotalWithoutVat() + secondMonthResult.getSubtotalWithoutVat();
-        double totalVat = firstMonthResult.getVatCost() + secondMonthResult.getVatCost();
-        double total = firstMonthResult.getTotal() + secondMonthResult.getTotal();
+        double totalConsumption = firstMonthResult.consumptionKwh() + secondMonthResult.consumptionKwh();
+        double totalLoss = firstMonthResult.lossKwh() + secondMonthResult.lossKwh();
+        double totalFixedCost = firstMonthResult.fixedCost() + secondMonthResult.fixedCost();
+        double totalSubtotal = firstMonthResult.subtotalWithoutVat() + secondMonthResult.subtotalWithoutVat();
+        double totalVat = firstMonthResult.vatCost() + secondMonthResult.vatCost();
+        double total = firstMonthResult.total() + secondMonthResult.total();
 
         String text = getString(
                 R.string.result_template,
@@ -397,16 +368,16 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private TariffConfig parseSecondMonthTariffConfig(MonthTariffInputs inputs, TariffConfig fallback) {
-        Double index = parseDoubleOrFallback(inputs.priceIndexInput.getText().toString(), fallback.getCorrispettivoLuceIndexPerKwh());
-        Double contributo = parseDoubleOrFallback(inputs.priceContributoInput.getText().toString(), fallback.getContributoConsumoPerKwh());
-        Double dispacciamento = parseDoubleOrFallback(inputs.priceDispacciamentoInput.getText().toString(), fallback.getDispacciamentoPerKwh());
-        Double trasporto = parseDoubleOrFallback(inputs.priceTrasportoInput.getText().toString(), fallback.getTrasportoPerKwh());
-        Double oneriAsos = parseDoubleOrFallback(inputs.priceOneriAsosInput.getText().toString(), fallback.getOneriAsosPerKwh());
-        Double oneriArim = parseDoubleOrFallback(inputs.priceOneriArimInput.getText().toString(), fallback.getOneriArimPerKwh());
-        Double imposte = parseDoubleOrFallback(inputs.priceImposteInput.getText().toString(), fallback.getImpostePerKwh());
-        Double perditePercent = parseDoubleOrFallback(inputs.lossesPercentInput.getText().toString(), fallback.getPerditePercent());
-        Double ivaPercent = parseDoubleOrFallback(inputs.ivaPercentInput.getText().toString(), fallback.getIvaPercent());
-        Double fissa = parseDoubleOrFallback(inputs.priceFissaInput.getText().toString(), fallback.getQuotaFissaBimestrale());
+        Double index = parseDoubleOrFallback(inputs.priceIndexInput.getText().toString(), fallback.corrispettivoLuceIndexPerKwh());
+        Double contributo = parseDoubleOrFallback(inputs.priceContributoInput.getText().toString(), fallback.contributoConsumoPerKwh());
+        Double dispacciamento = parseDoubleOrFallback(inputs.priceDispacciamentoInput.getText().toString(), fallback.dispacciamentoPerKwh());
+        Double trasporto = parseDoubleOrFallback(inputs.priceTrasportoInput.getText().toString(), fallback.trasportoPerKwh());
+        Double oneriAsos = parseDoubleOrFallback(inputs.priceOneriAsosInput.getText().toString(), fallback.oneriAsosPerKwh());
+        Double oneriArim = parseDoubleOrFallback(inputs.priceOneriArimInput.getText().toString(), fallback.oneriArimPerKwh());
+        Double imposte = parseDoubleOrFallback(inputs.priceImposteInput.getText().toString(), fallback.impostePerKwh());
+        Double perditePercent = parseDoubleOrFallback(inputs.lossesPercentInput.getText().toString(), fallback.perditePercent());
+        Double ivaPercent = parseDoubleOrFallback(inputs.ivaPercentInput.getText().toString(), fallback.ivaPercent());
+        Double fissa = parseDoubleOrFallback(inputs.priceFissaInput.getText().toString(), fallback.quotaFissaBimestrale());
 
         if (index == null || contributo == null || dispacciamento == null || trasporto == null
                 || oneriAsos == null || oneriArim == null || imposte == null
@@ -451,16 +422,16 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setTariffInputs(MonthTariffInputs inputs, TariffConfig config) {
-        inputs.priceIndexInput.setText(inputFormat.format(config.getCorrispettivoLuceIndexPerKwh()));
-        inputs.priceContributoInput.setText(inputFormat.format(config.getContributoConsumoPerKwh()));
-        inputs.priceDispacciamentoInput.setText(inputFormat.format(config.getDispacciamentoPerKwh()));
-        inputs.priceTrasportoInput.setText(inputFormat.format(config.getTrasportoPerKwh()));
-        inputs.priceOneriAsosInput.setText(inputFormat.format(config.getOneriAsosPerKwh()));
-        inputs.priceOneriArimInput.setText(inputFormat.format(config.getOneriArimPerKwh()));
-        inputs.priceImposteInput.setText(inputFormat.format(config.getImpostePerKwh()));
-        inputs.lossesPercentInput.setText(inputFormat.format(config.getPerditePercent()));
-        inputs.ivaPercentInput.setText(inputFormat.format(config.getIvaPercent()));
-        inputs.priceFissaInput.setText(inputFormat.format(config.getQuotaFissaBimestrale()));
+        inputs.priceIndexInput.setText(inputFormat.format(config.corrispettivoLuceIndexPerKwh()));
+        inputs.priceContributoInput.setText(inputFormat.format(config.contributoConsumoPerKwh()));
+        inputs.priceDispacciamentoInput.setText(inputFormat.format(config.dispacciamentoPerKwh()));
+        inputs.priceTrasportoInput.setText(inputFormat.format(config.trasportoPerKwh()));
+        inputs.priceOneriAsosInput.setText(inputFormat.format(config.oneriAsosPerKwh()));
+        inputs.priceOneriArimInput.setText(inputFormat.format(config.oneriArimPerKwh()));
+        inputs.priceImposteInput.setText(inputFormat.format(config.impostePerKwh()));
+        inputs.lossesPercentInput.setText(inputFormat.format(config.perditePercent()));
+        inputs.ivaPercentInput.setText(inputFormat.format(config.ivaPercent()));
+        inputs.priceFissaInput.setText(inputFormat.format(config.quotaFissaBimestrale()));
     }
 
     private void applyLoadedMonthTwoInheritanceState(boolean hasSavedSecondMonthConfig) {
@@ -538,16 +509,16 @@ public class MainActivity extends AppCompatActivity {
 
     private void persistTariffForSlot(String slot, TariffConfig config) {
         preferences.edit()
-                .putLong(slotKey(KEY_PRICE_INDEX, slot), Double.doubleToRawLongBits(config.getCorrispettivoLuceIndexPerKwh()))
-                .putLong(slotKey(KEY_PRICE_CONTRIBUTO, slot), Double.doubleToRawLongBits(config.getContributoConsumoPerKwh()))
-                .putLong(slotKey(KEY_PRICE_DISPACCIAMENTO, slot), Double.doubleToRawLongBits(config.getDispacciamentoPerKwh()))
-                .putLong(slotKey(KEY_PRICE_TRASPORTO, slot), Double.doubleToRawLongBits(config.getTrasportoPerKwh()))
-                .putLong(slotKey(KEY_PRICE_ONERI_ASOS, slot), Double.doubleToRawLongBits(config.getOneriAsosPerKwh()))
-                .putLong(slotKey(KEY_PRICE_ONERI_ARIM, slot), Double.doubleToRawLongBits(config.getOneriArimPerKwh()))
-                .putLong(slotKey(KEY_PRICE_IMPOSTE, slot), Double.doubleToRawLongBits(config.getImpostePerKwh()))
-                .putLong(slotKey(KEY_PERDITE_PERCENT, slot), Double.doubleToRawLongBits(config.getPerditePercent()))
-                .putLong(slotKey(KEY_IVA_PERCENT, slot), Double.doubleToRawLongBits(config.getIvaPercent()))
-                .putLong(slotKey(KEY_PRICE_FISSA, slot), Double.doubleToRawLongBits(config.getQuotaFissaBimestrale()))
+                .putLong(slotKey(KEY_PRICE_INDEX, slot), Double.doubleToRawLongBits(config.corrispettivoLuceIndexPerKwh()))
+                .putLong(slotKey(KEY_PRICE_CONTRIBUTO, slot), Double.doubleToRawLongBits(config.contributoConsumoPerKwh()))
+                .putLong(slotKey(KEY_PRICE_DISPACCIAMENTO, slot), Double.doubleToRawLongBits(config.dispacciamentoPerKwh()))
+                .putLong(slotKey(KEY_PRICE_TRASPORTO, slot), Double.doubleToRawLongBits(config.trasportoPerKwh()))
+                .putLong(slotKey(KEY_PRICE_ONERI_ASOS, slot), Double.doubleToRawLongBits(config.oneriAsosPerKwh()))
+                .putLong(slotKey(KEY_PRICE_ONERI_ARIM, slot), Double.doubleToRawLongBits(config.oneriArimPerKwh()))
+                .putLong(slotKey(KEY_PRICE_IMPOSTE, slot), Double.doubleToRawLongBits(config.impostePerKwh()))
+                .putLong(slotKey(KEY_PERDITE_PERCENT, slot), Double.doubleToRawLongBits(config.perditePercent()))
+                .putLong(slotKey(KEY_IVA_PERCENT, slot), Double.doubleToRawLongBits(config.ivaPercent()))
+                .putLong(slotKey(KEY_PRICE_FISSA, slot), Double.doubleToRawLongBits(config.quotaFissaBimestrale()))
                 .apply();
     }
 

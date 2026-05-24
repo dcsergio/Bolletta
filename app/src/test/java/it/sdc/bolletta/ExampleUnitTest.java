@@ -28,15 +28,15 @@ public class ExampleUnitTest {
 
         BillingCalculator.Result result = BillingCalculator.calculateBimonthlyTotal(250, config);
 
-        assertEquals(250.0, result.getConsumptionKwh(), 0.0001);
-        assertEquals(25.0, result.getLossKwh(), 0.0001);
-        assertEquals(41.85, result.getQuadroA(), 0.0001);
-        assertEquals(3.375, result.getQuadroB(), 0.0001);
-        assertEquals(7.85, result.getQuadroC(), 0.0001);
-        assertEquals(5.675, result.getQuadroD(), 0.0001);
-        assertEquals(58.75, result.getSubtotalWithoutVat(), 0.0001);
-        assertEquals(5.875, result.getVatCost(), 0.0001);
-        assertEquals(64.625, result.getTotal(), 0.0001);
+        assertEquals(250.0, result.consumptionKwh(), 0.0001);
+        assertEquals(25.0, result.lossKwh(), 0.0001);
+        assertEquals(41.85, result.quadroA(), 0.0001);
+        assertEquals(3.375, result.quadroB(), 0.0001);
+        assertEquals(7.85, result.quadroC(), 0.0001);
+        assertEquals(5.675, result.quadroD(), 0.0001);
+        assertEquals(58.75, result.subtotalWithoutVat(), 0.0001);
+        assertEquals(5.875, result.vatCost(), 0.0001);
+        assertEquals(64.625, result.total(), 0.0001);
     }
 
     @Test
@@ -56,7 +56,7 @@ public class ExampleUnitTest {
 
         BillingCalculator.Result result = BillingCalculator.calculateBimonthlyTotal(-20, config);
 
-        assertEquals(0.0, result.getConsumptionKwh(), 0.0001);
-        assertEquals(3.3, result.getTotal(), 0.0001);
+        assertEquals(0.0, result.consumptionKwh(), 0.0001);
+        assertEquals(3.3, result.total(), 0.0001);
     }
 }

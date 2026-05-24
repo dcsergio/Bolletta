@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="?android:attr/colorBackground">
+    android:background="?android:attr/colorBackground"
+    android:orientation="vertical">
 
     <!-- Header Fisso (Non scorre) -->
     <com.google.android.material.card.MaterialCardView
@@ -18,8 +18,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
             android:background="?attr/colorPrimary"
+            android:orientation="vertical"
             android:paddingHorizontal="20dp"
             android:paddingTop="40dp"
             android:paddingBottom="20dp">
@@ -27,17 +27,17 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
+                android:baselineAligned="false"
                 android:gravity="center_vertical"
-                android:baselineAligned="false">
+                android:orientation="horizontal">
 
                 <ImageView
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:src="@drawable/ic_bolt"
-                    app:tint="?attr/colorOnPrimary"
                     android:layout_marginEnd="16dp"
-                    android:contentDescription="@string/app_name" />
+                    android:contentDescription="@string/app_name"
+                    android:src="@drawable/ic_bolt"
+                    app:tint="?attr/colorOnPrimary" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -80,51 +80,51 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginBottom="12dp"
                         android:text="@string/title_readings"
                         android:textAppearance="@style/TextAppearance.Material3.TitleSmall"
                         android:textColor="?attr/colorPrimary"
-                        android:layout_marginBottom="12dp"
                         android:textStyle="bold" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:baselineAligned="false">
+                        android:baselineAligned="false"
+                        android:orientation="horizontal">
 
                         <com.google.android.material.textfield.TextInputLayout
+                            style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
                             android:layout_marginEnd="8dp"
-                            android:hint="@string/label_month_one_short"
-                            style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
+                            android:layout_weight="1"
+                            android:hint="@string/label_month_one_short">
 
                             <com.google.android.material.textfield.TextInputEditText
                                 android:id="@+id/inputReadingMonthOne"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:inputType="numberDecimal"
+                                android:autofillHints="none"
                                 android:imeOptions="actionNext"
-                                android:maxLines="1"
-                                android:autofillHints="none" />
+                                android:inputType="numberDecimal"
+                                android:maxLines="1" />
                         </com.google.android.material.textfield.TextInputLayout>
 
                         <com.google.android.material.textfield.TextInputLayout
+                            style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:hint="@string/label_month_two_short"
-                            style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
+                            android:hint="@string/label_month_two_short">
 
                             <com.google.android.material.textfield.TextInputEditText
                                 android:id="@+id/inputReadingMonthTwo"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:inputType="numberDecimal"
+                                android:autofillHints="none"
                                 android:imeOptions="actionDone"
-                                android:maxLines="1"
-                                android:autofillHints="none" />
+                                android:inputType="numberDecimal"
+                                android:maxLines="1" />
                         </com.google.android.material.textfield.TextInputLayout>
                     </LinearLayout>
                 </LinearLayout>
@@ -146,9 +146,9 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
                         android:layout_marginBottom="8dp"
-                        android:baselineAligned="false">
+                        android:baselineAligned="false"
+                        android:orientation="horizontal">
 
                         <TextView
                             android:layout_width="0dp"
@@ -183,427 +183,484 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:baselineAligned="false">
+                        android:baselineAligned="false"
+                        android:orientation="horizontal">
+
                         <TextView
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
                             android:layout_weight="1.2"
                             android:text="@string/label_index_short"
-                            android:textAppearance="@style/TextAppearance.Material3.BodySmall"
-                            android:layout_gravity="center_vertical" />
+                            android:textAppearance="@style/TextAppearance.Material3.BodySmall" />
+
                         <EditText
                             android:id="@+id/inputPriceIndex"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:inputType="numberDecimal"
-                            android:textSize="14sp"
+                            android:autofillHints="none"
                             android:background="@null"
                             android:gravity="center"
-                            android:padding="10dp"
                             android:hint="@string/hint_decimal_three"
-                            android:autofillHints="none"
+                            android:inputType="numberDecimal"
+                            android:padding="10dp"
+                            android:textSize="14sp"
                             tools:ignore="LabelFor" />
+
                         <EditText
                             android:id="@+id/inputPriceIndexMonthTwo"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:inputType="numberDecimal"
-                            android:textSize="14sp"
+                            android:autofillHints="none"
                             android:background="@null"
                             android:gravity="center"
-                            android:padding="10dp"
                             android:hint="@string/hint_decimal_three"
-                            android:autofillHints="none"
+                            android:inputType="numberDecimal"
+                            android:padding="10dp"
+                            android:textSize="14sp"
                             tools:ignore="LabelFor" />
                     </LinearLayout>
 
-                    <View android:layout_width="match_parent" android:layout_height="1dp" android:background="?attr/colorSurfaceVariant" />
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="?attr/colorSurfaceVariant" />
 
                     <!-- Contributo -->
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:baselineAligned="false">
+                        android:baselineAligned="false"
+                        android:orientation="horizontal">
+
                         <TextView
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
                             android:layout_weight="1.2"
                             android:text="@string/label_contributo_short"
-                            android:textAppearance="@style/TextAppearance.Material3.BodySmall"
-                            android:layout_gravity="center_vertical" />
+                            android:textAppearance="@style/TextAppearance.Material3.BodySmall" />
+
                         <EditText
                             android:id="@+id/inputPriceContributo"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:inputType="numberDecimal"
-                            android:textSize="14sp"
+                            android:autofillHints="none"
                             android:background="@null"
                             android:gravity="center"
-                            android:padding="10dp"
                             android:hint="@string/hint_decimal_three"
-                            android:autofillHints="none"
+                            android:inputType="numberDecimal"
+                            android:padding="10dp"
+                            android:textSize="14sp"
                             tools:ignore="LabelFor" />
+
                         <EditText
                             android:id="@+id/inputPriceContributoMonthTwo"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:inputType="numberDecimal"
-                            android:textSize="14sp"
+                            android:autofillHints="none"
                             android:background="@null"
                             android:gravity="center"
-                            android:padding="10dp"
                             android:hint="@string/hint_decimal_three"
-                            android:autofillHints="none"
+                            android:inputType="numberDecimal"
+                            android:padding="10dp"
+                            android:textSize="14sp"
                             tools:ignore="LabelFor" />
                     </LinearLayout>
 
-                    <View android:layout_width="match_parent" android:layout_height="1dp" android:background="?attr/colorSurfaceVariant" />
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="?attr/colorSurfaceVariant" />
 
                     <!-- Dispacciamento -->
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:baselineAligned="false">
+                        android:baselineAligned="false"
+                        android:orientation="horizontal">
+
                         <TextView
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
                             android:layout_weight="1.2"
                             android:text="@string/label_dispacciamento_short"
-                            android:textAppearance="@style/TextAppearance.Material3.BodySmall"
-                            android:layout_gravity="center_vertical" />
+                            android:textAppearance="@style/TextAppearance.Material3.BodySmall" />
+
                         <EditText
                             android:id="@+id/inputPriceDispacciamento"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:inputType="numberDecimal"
-                            android:textSize="14sp"
+                            android:autofillHints="none"
                             android:background="@null"
                             android:gravity="center"
-                            android:padding="10dp"
                             android:hint="@string/hint_decimal_three"
-                            android:autofillHints="none"
+                            android:inputType="numberDecimal"
+                            android:padding="10dp"
+                            android:textSize="14sp"
                             tools:ignore="LabelFor" />
+
                         <EditText
                             android:id="@+id/inputPriceDispacciamentoMonthTwo"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:inputType="numberDecimal"
-                            android:textSize="14sp"
+                            android:autofillHints="none"
                             android:background="@null"
                             android:gravity="center"
-                            android:padding="10dp"
                             android:hint="@string/hint_decimal_three"
-                            android:autofillHints="none"
+                            android:inputType="numberDecimal"
+                            android:padding="10dp"
+                            android:textSize="14sp"
                             tools:ignore="LabelFor" />
                     </LinearLayout>
 
-                    <View android:layout_width="match_parent" android:layout_height="1dp" android:background="?attr/colorSurfaceVariant" />
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="?attr/colorSurfaceVariant" />
 
                     <!-- Trasporto -->
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:baselineAligned="false">
+                        android:baselineAligned="false"
+                        android:orientation="horizontal">
+
                         <TextView
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
                             android:layout_weight="1.2"
                             android:text="@string/label_trasporto_short"
-                            android:textAppearance="@style/TextAppearance.Material3.BodySmall"
-                            android:layout_gravity="center_vertical" />
+                            android:textAppearance="@style/TextAppearance.Material3.BodySmall" />
+
                         <EditText
                             android:id="@+id/inputPriceTrasporto"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:inputType="numberDecimal"
-                            android:textSize="14sp"
+                            android:autofillHints="none"
                             android:background="@null"
                             android:gravity="center"
-                            android:padding="10dp"
                             android:hint="@string/hint_decimal_three"
-                            android:autofillHints="none"
+                            android:inputType="numberDecimal"
+                            android:padding="10dp"
+                            android:textSize="14sp"
                             tools:ignore="LabelFor" />
+
                         <EditText
                             android:id="@+id/inputPriceTrasportoMonthTwo"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:inputType="numberDecimal"
-                            android:textSize="14sp"
+                            android:autofillHints="none"
                             android:background="@null"
                             android:gravity="center"
-                            android:padding="10dp"
                             android:hint="@string/hint_decimal_three"
-                            android:autofillHints="none"
+                            android:inputType="numberDecimal"
+                            android:padding="10dp"
+                            android:textSize="14sp"
                             tools:ignore="LabelFor" />
                     </LinearLayout>
 
-                    <View android:layout_width="match_parent" android:layout_height="1dp" android:background="?attr/colorSurfaceVariant" />
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="?attr/colorSurfaceVariant" />
 
                     <!-- ASOS -->
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:baselineAligned="false">
+                        android:baselineAligned="false"
+                        android:orientation="horizontal">
+
                         <TextView
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
                             android:layout_weight="1.2"
                             android:text="@string/label_oneri_asos_short"
-                            android:textAppearance="@style/TextAppearance.Material3.BodySmall"
-                            android:layout_gravity="center_vertical" />
+                            android:textAppearance="@style/TextAppearance.Material3.BodySmall" />
+
                         <EditText
                             android:id="@+id/inputPriceOneriAsos"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:inputType="numberDecimal"
-                            android:textSize="14sp"
+                            android:autofillHints="none"
                             android:background="@null"
                             android:gravity="center"
-                            android:padding="10dp"
                             android:hint="@string/hint_decimal_three"
-                            android:autofillHints="none"
+                            android:inputType="numberDecimal"
+                            android:padding="10dp"
+                            android:textSize="14sp"
                             tools:ignore="LabelFor" />
+
                         <EditText
                             android:id="@+id/inputPriceOneriAsosMonthTwo"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:inputType="numberDecimal"
-                            android:textSize="14sp"
+                            android:autofillHints="none"
                             android:background="@null"
                             android:gravity="center"
-                            android:padding="10dp"
                             android:hint="@string/hint_decimal_three"
-                            android:autofillHints="none"
+                            android:inputType="numberDecimal"
+                            android:padding="10dp"
+                            android:textSize="14sp"
                             tools:ignore="LabelFor" />
                     </LinearLayout>
 
-                    <View android:layout_width="match_parent" android:layout_height="1dp" android:background="?attr/colorSurfaceVariant" />
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="?attr/colorSurfaceVariant" />
 
                     <!-- ARIM -->
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:baselineAligned="false">
+                        android:baselineAligned="false"
+                        android:orientation="horizontal">
+
                         <TextView
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
                             android:layout_weight="1.2"
                             android:text="@string/label_oneri_arim_short"
-                            android:textAppearance="@style/TextAppearance.Material3.BodySmall"
-                            android:layout_gravity="center_vertical" />
+                            android:textAppearance="@style/TextAppearance.Material3.BodySmall" />
+
                         <EditText
                             android:id="@+id/inputPriceOneriArim"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:inputType="numberDecimal"
-                            android:textSize="14sp"
+                            android:autofillHints="none"
                             android:background="@null"
                             android:gravity="center"
-                            android:padding="10dp"
                             android:hint="@string/hint_decimal_three"
-                            android:autofillHints="none"
+                            android:inputType="numberDecimal"
+                            android:padding="10dp"
+                            android:textSize="14sp"
                             tools:ignore="LabelFor" />
+
                         <EditText
                             android:id="@+id/inputPriceOneriArimMonthTwo"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:inputType="numberDecimal"
-                            android:textSize="14sp"
+                            android:autofillHints="none"
                             android:background="@null"
                             android:gravity="center"
-                            android:padding="10dp"
                             android:hint="@string/hint_decimal_three"
-                            android:autofillHints="none"
+                            android:inputType="numberDecimal"
+                            android:padding="10dp"
+                            android:textSize="14sp"
                             tools:ignore="LabelFor" />
                     </LinearLayout>
 
-                    <View android:layout_width="match_parent" android:layout_height="1dp" android:background="?attr/colorSurfaceVariant" />
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="?attr/colorSurfaceVariant" />
 
                     <!-- Imposte -->
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:baselineAligned="false">
+                        android:baselineAligned="false"
+                        android:orientation="horizontal">
+
                         <TextView
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
                             android:layout_weight="1.2"
                             android:text="@string/label_imposte_short"
-                            android:textAppearance="@style/TextAppearance.Material3.BodySmall"
-                            android:layout_gravity="center_vertical" />
+                            android:textAppearance="@style/TextAppearance.Material3.BodySmall" />
+
                         <EditText
                             android:id="@+id/inputPriceImposte"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:inputType="numberDecimal"
-                            android:textSize="14sp"
+                            android:autofillHints="none"
                             android:background="@null"
                             android:gravity="center"
-                            android:padding="10dp"
                             android:hint="@string/hint_decimal_three"
-                            android:autofillHints="none"
+                            android:inputType="numberDecimal"
+                            android:padding="10dp"
+                            android:textSize="14sp"
                             tools:ignore="LabelFor" />
+
                         <EditText
                             android:id="@+id/inputPriceImposteMonthTwo"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:inputType="numberDecimal"
-                            android:textSize="14sp"
+                            android:autofillHints="none"
                             android:background="@null"
                             android:gravity="center"
-                            android:padding="10dp"
                             android:hint="@string/hint_decimal_three"
-                            android:autofillHints="none"
+                            android:inputType="numberDecimal"
+                            android:padding="10dp"
+                            android:textSize="14sp"
                             tools:ignore="LabelFor" />
                     </LinearLayout>
 
-                    <View android:layout_width="match_parent" android:layout_height="1dp" android:background="?attr/colorSurfaceVariant" />
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="?attr/colorSurfaceVariant" />
 
                     <!-- Perdite % -->
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:baselineAligned="false">
+                        android:baselineAligned="false"
+                        android:orientation="horizontal">
+
                         <TextView
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
                             android:layout_weight="1.2"
                             android:text="@string/label_perdite_short"
-                            android:textAppearance="@style/TextAppearance.Material3.BodySmall"
-                            android:layout_gravity="center_vertical" />
+                            android:textAppearance="@style/TextAppearance.Material3.BodySmall" />
+
                         <EditText
                             android:id="@+id/inputLossesPercent"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:inputType="numberDecimal"
-                            android:textSize="14sp"
+                            android:autofillHints="none"
                             android:background="@null"
                             android:gravity="center"
-                            android:padding="10dp"
                             android:hint="@string/hint_percent"
-                            android:autofillHints="none"
+                            android:inputType="numberDecimal"
+                            android:padding="10dp"
+                            android:textSize="14sp"
                             tools:ignore="LabelFor" />
+
                         <EditText
                             android:id="@+id/inputLossesPercentMonthTwo"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:inputType="numberDecimal"
-                            android:textSize="14sp"
+                            android:autofillHints="none"
                             android:background="@null"
                             android:gravity="center"
-                            android:padding="10dp"
                             android:hint="@string/hint_percent"
-                            android:autofillHints="none"
+                            android:inputType="numberDecimal"
+                            android:padding="10dp"
+                            android:textSize="14sp"
                             tools:ignore="LabelFor" />
                     </LinearLayout>
 
-                    <View android:layout_width="match_parent" android:layout_height="1dp" android:background="?attr/colorSurfaceVariant" />
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="?attr/colorSurfaceVariant" />
 
                     <!-- IVA % -->
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:baselineAligned="false">
+                        android:baselineAligned="false"
+                        android:orientation="horizontal">
+
                         <TextView
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
                             android:layout_weight="1.2"
                             android:text="@string/label_iva_short"
-                            android:textAppearance="@style/TextAppearance.Material3.BodySmall"
-                            android:layout_gravity="center_vertical" />
+                            android:textAppearance="@style/TextAppearance.Material3.BodySmall" />
+
                         <EditText
                             android:id="@+id/inputVatPercent"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:inputType="numberDecimal"
-                            android:textSize="14sp"
+                            android:autofillHints="none"
                             android:background="@null"
                             android:gravity="center"
-                            android:padding="10dp"
                             android:hint="@string/hint_percent"
-                            android:autofillHints="none"
+                            android:inputType="numberDecimal"
+                            android:padding="10dp"
+                            android:textSize="14sp"
                             tools:ignore="LabelFor" />
+
                         <EditText
                             android:id="@+id/inputVatPercentMonthTwo"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:inputType="numberDecimal"
-                            android:textSize="14sp"
+                            android:autofillHints="none"
                             android:background="@null"
                             android:gravity="center"
-                            android:padding="10dp"
                             android:hint="@string/hint_percent"
-                            android:autofillHints="none"
+                            android:inputType="numberDecimal"
+                            android:padding="10dp"
+                            android:textSize="14sp"
                             tools:ignore="LabelFor" />
                     </LinearLayout>
 
-                    <View android:layout_width="match_parent" android:layout_height="1dp" android:background="?attr/colorSurfaceVariant" />
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="?attr/colorSurfaceVariant" />
 
                     <!-- Fissa -->
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:baselineAligned="false">
+                        android:baselineAligned="false"
+                        android:orientation="horizontal">
+
                         <TextView
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
                             android:layout_weight="1.2"
                             android:text="@string/label_fissa_short"
-                            android:textAppearance="@style/TextAppearance.Material3.BodySmall"
-                            android:layout_gravity="center_vertical" />
+                            android:textAppearance="@style/TextAppearance.Material3.BodySmall" />
+
                         <EditText
                             android:id="@+id/inputPriceFissa"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:inputType="numberDecimal"
-                            android:textSize="14sp"
+                            android:autofillHints="none"
                             android:background="@null"
                             android:gravity="center"
-                            android:padding="10dp"
                             android:hint="@string/hint_decimal_two"
-                            android:autofillHints="none"
+                            android:inputType="numberDecimal"
+                            android:padding="10dp"
+                            android:textSize="14sp"
                             tools:ignore="LabelFor" />
+
                         <EditText
                             android:id="@+id/inputPriceFissaMonthTwo"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:inputType="numberDecimal"
-                            android:textSize="14sp"
+                            android:autofillHints="none"
                             android:background="@null"
                             android:gravity="center"
-                            android:padding="10dp"
                             android:hint="@string/hint_decimal_two"
-                            android:autofillHints="none"
+                            android:inputType="numberDecimal"
+                            android:padding="10dp"
+                            android:textSize="14sp"
                             tools:ignore="LabelFor" />
                     </LinearLayout>
 
@@ -655,15 +712,19 @@
                         android:textColor="?attr/colorPrimary"
                         android:textStyle="bold" />
 
-                    <View android:layout_width="match_parent" android:layout_height="1dp" android:background="?attr/colorSurfaceVariant" android:layout_marginVertical="16dp"/>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginVertical="16dp"
+                        android:background="?attr/colorSurfaceVariant" />
 
                     <TextView
                         android:id="@+id/textResult"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:lineSpacingExtra="4dp"
                         android:text="@string/result_placeholder"
-                        android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
-                        android:lineSpacingExtra="4dp" />
+                        android:textAppearance="@style/TextAppearance.Material3.BodyMedium" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 

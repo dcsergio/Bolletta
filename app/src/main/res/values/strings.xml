@@ -5,11 +5,9 @@
     <string name="label_reading_month_two">Lettura mese 2 (kWh)</string>
 
     <string name="title_prices">Dati Bolletta</string>
-    <string name="label_price_month">Mese prezzi (yyyy-MM)</string>
     <string name="label_component">Componente</string>
     <string name="label_month_one_short">Mese 1</string>
     <string name="label_month_two_short">Mese 2</string>
-    <string name="label_consumption_kwh">Consumo (kWh)</string>
     <string name="label_index_short">Index</string>
     <string name="label_contributo_short">C. Cons.</string>
     <string name="label_dispacciamento_short">Dispacc.</string>
@@ -38,17 +36,14 @@
     <string name="button_save_prices">Salva prezzi dei due mesi</string>
 
     <string name="title_calculation">Calcolo bimestrale</string>
-    <string name="hint_period_end">Mese fine bimestre (yyyy-MM)</string>
     <string name="button_calculate">Calcola totale bimestrale</string>
 
     <string name="result_placeholder">Inserisci le 2 letture del bimestre, configura i prezzi mensili e calcola il totale.</string>
     <string name="result_template">Consumo mese 1: %1$s kWh\nConsumo mese 2: %2$s kWh\nConsumo bimestrale: %3$s kWh\nPerdite applicate: %4$s kWh\nQuota fissa: %5$s EUR\nTotale IVA esclusa: %6$s EUR\nIVA: %7$s EUR\nTotale bimestrale: %8$s EUR</string>
     <string name="result_total_format">Totale: %1$s EUR</string>
 
-    <string name="error_month">Formato mese non valido. Usa yyyy-MM.</string>
     <string name="error_reading">Inserisci letture valide (numeri &gt;= 0).</string>
     <string name="error_prices">Inserisci tutti i prezzi del mese 1 in formato numerico.</string>
-    <string name="error_missing_prices_for_month">Mancano i prezzi per il mese %1$s.</string>
 
     <string name="prices_saved">Prezzi aggiornati.</string>
 </resources>
