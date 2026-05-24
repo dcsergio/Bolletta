@@ -27,9 +27,9 @@
             android:textAppearance="@style/TextAppearance.Material3.HeadlineMedium"
             android:textColor="?attr/colorOnPrimary"
             android:textStyle="bold"
-            android:drawableStart="@drawable/ic_bolt"
+            app:drawableStartCompat="@drawable/ic_bolt"
             android:drawablePadding="16dp"
-            android:drawableTint="?attr/colorOnPrimary" />
+            app:drawableTint="?attr/colorOnPrimary" />
     </com.google.android.material.card.MaterialCardView>
 
     <ScrollView
